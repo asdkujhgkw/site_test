@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -1028,10 +1029,10 @@
                     <td>${inq.title}</td>
                     <td>${inq.date}</td>
                     <td><span class="badge ${inq.status}">${inq.status === 'pending' ? '대기중' : '처리완료'}</span></td>
-                    <td class="actions" onclick="event.stopPropagation()">
-                        <button class="view-btn" onclick="viewInquiry(${inq.id})"><i class="fas fa-eye"></i></button>
-                        ${inq.status === 'pending' ? `<button class="complete-btn" onclick="toggleInqStatus(${inq.id})"><i class="fas fa-check"></i></button>` : ''}
-                        <button class="delete-btn" onclick="deleteInquiry(${inq.id})"><i class="fas fa-trash"></i></button>
+                    <td class="actions">
+                        <button class="view-btn" onclick="event.stopPropagation(); viewInquiry(${inq.id})"><i class="fas fa-eye"></i></button>
+                        ${inq.status === 'pending' ? `<button class="complete-btn" onclick="event.stopPropagation(); toggleInqStatus(${inq.id})"><i class="fas fa-check"></i></button>` : ''}
+                        <button class="delete-btn" onclick="event.stopPropagation(); deleteInquiry(${inq.id})"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>`;
             });
