@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -379,18 +378,10 @@
                                 <input type="hidden" id="newsEditId" value="">
                                 <div class="form-row">
                                     <div class="form-group">
-                                        <label>카테고리 *</label>
-                                        <select id="newsCategory" required>
-                                            <option value="">선택</option>
-                                            <option value="notice">공지사항</option>
-                                            <option value="news">Alabs 소식</option>
-                                            <option value="trend">이슈 및 동향</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
                                         <label>작성일</label>
                                         <input type="date" id="newsDate">
                                     </div>
+                                    <div class="form-group"></div>
                                 </div>
                                 <div class="form-group full">
                                     <label>제목 *</label>
@@ -440,6 +431,19 @@
                     </div>
                 </div>
                 <div class="content-area">
+                    <div class="panel" style="border-left:4px solid var(--accent);margin-bottom:20px;">
+                        <div class="panel-body" style="padding:16px 20px;">
+                            <div style="display:flex;align-items:flex-start;gap:12px;">
+                                <i class="fas fa-info-circle" style="color:var(--accent);font-size:18px;margin-top:2px;"></i>
+                                <div style="font-size:13px;color:var(--gray);line-height:1.7;">
+                                    <strong style="color:var(--dark);">다른 브라우저에서도 로고를 보려면:</strong><br>
+                                    ① 기관을 등록한 후 <strong>"내보내기"</strong> 버튼으로 <code>partners_data.json</code> 파일을 다운로드하세요.<br>
+                                    ② 다운로드한 파일을 <code>2_5_partners.html</code>과 <strong>같은 폴더</strong>에 넣으면 자동으로 로드됩니다.<br>
+                                    ③ 또는 수행기관 페이지에서 직접 JSON 파일을 불러올 수도 있습니다.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="dashboard-stats">
                         <div class="stat-card"><div class="icon blue"><i class="fas fa-building"></i></div><div class="info"><div class="number" id="partnersTotalCount">0</div><div class="label">전체 기관</div></div></div>
                         <div class="stat-card"><div class="icon green"><i class="fas fa-landmark"></i></div><div class="info"><div class="number" id="partnersPublicCount">0</div><div class="label">공공기관</div></div></div>
@@ -564,7 +568,6 @@
                 <button class="modal-close" onclick="closeNewsModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-meta">
-                <span><i class="fas fa-folder"></i> <span id="newsModalCategory">카테고리</span></span>
                 <span><i class="fas fa-calendar"></i> <span id="newsModalDate">날짜</span></span>
                 <span><i class="fas fa-eye"></i> 조회 <span id="newsModalViews">0</span></span>
             </div>
@@ -723,11 +726,7 @@
         }
 
         function renderNews() {
-            const sorted = [...newsList].sort((a, b) => {
-                if (a.category === 'notice' && b.category !== 'notice') return -1;
-                if (a.category !== 'notice' && b.category === 'notice') return 1;
-                return new Date(b.date) - new Date(a.date);
-            });
+            const sorted = [...newsList].sort((a, b) => new Date(b.date) - new Date(a.date));
             
             const total = sorted.length;
             const totalPages = Math.ceil(total / newsPerPage) || 1;
@@ -743,10 +742,8 @@
                 let html = '';
                 items.forEach((news, idx) => {
                     const num = total - start - idx;
-                    const isNotice = news.category === 'notice';
                     html += `<div class="news-item">
-                        <div class="news-num">${isNotice ? '<i class="fas fa-bullhorn"></i>' : num}</div>
-                        <div class="news-category"><span class="badge ${news.category}">${categoryNames[news.category]}</span></div>
+                        <div class="news-num">${num}</div>
                         <div class="news-content" onclick="viewNews(${news.id})"><div class="news-title">${news.title}</div></div>
                         <div class="news-date">${news.date}</div>
                         <div class="news-views">${news.views || 0}</div>
@@ -778,17 +775,16 @@
 
         function saveNews() {
             const editId = document.getElementById('newsEditId').value;
-            const category = document.getElementById('newsCategory').value;
             const title = document.getElementById('newsTitle').value.trim();
             const content = document.getElementById('newsContent').value.trim();
             const date = document.getElementById('newsDate').value;
             
-            if (!category || !title || !content) { showToast('모든 필수 항목을 입력해주세요.', 'error'); return; }
+            if (!title || !content) { showToast('제목과 내용을 입력해주세요.', 'error'); return; }
             
             if (editId) {
                 const news = newsList.find(n => n.id === parseInt(editId));
                 if (news) {
-                    news.category = category;
+                    news.category = 'news';
                     news.title = title;
                     news.content = content;
                     news.date = date || new Date().toISOString().split('T')[0];
@@ -798,7 +794,7 @@
             } else {
                 newsList.unshift({
                     id: Date.now(),
-                    category, title, content,
+                    category: 'news', title, content,
                     date: date || new Date().toISOString().split('T')[0],
                     views: 0,
                     image: newsUploadedImage
@@ -815,7 +811,6 @@
             const news = newsList.find(n => n.id === id);
             if (!news) return;
             document.getElementById('newsEditId').value = news.id;
-            document.getElementById('newsCategory').value = news.category;
             document.getElementById('newsTitle').value = news.title;
             document.getElementById('newsContent').value = news.content;
             document.getElementById('newsDate').value = news.date;
@@ -841,7 +836,6 @@
             const news = newsList.find(n => n.id === id);
             if (!news) return;
             document.getElementById('newsModalTitle').textContent = news.title;
-            document.getElementById('newsModalCategory').textContent = categoryNames[news.category];
             document.getElementById('newsModalDate').textContent = news.date;
             document.getElementById('newsModalViews').textContent = news.views || 0;
             let body = '<p>' + news.content.replace(/\n/g, '</p><p>') + '</p>';
@@ -894,10 +888,28 @@
         function handlePartnerLogo(e) {
             const file = e.target.files[0];
             if (file) {
+                // Compress logo to reduce base64 size for JSON portability
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    partnerUploadedLogo = e.target.result;
-                    document.getElementById('partnerLogoPreview').innerHTML = '<img src="' + partnerUploadedLogo + '">';
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const MAX_SIZE = 200; // max width/height
+                        let w = img.width, h = img.height;
+                        if (w > MAX_SIZE || h > MAX_SIZE) {
+                            if (w > h) { h = Math.round(h * MAX_SIZE / w); w = MAX_SIZE; }
+                            else { w = Math.round(w * MAX_SIZE / h); h = MAX_SIZE; }
+                        }
+                        canvas.width = w;
+                        canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, w, h);
+                        // Use PNG for logos with transparency, JPEG otherwise
+                        const isPNG = file.type === 'image/png';
+                        partnerUploadedLogo = canvas.toDataURL(isPNG ? 'image/png' : 'image/jpeg', 0.8);
+                        document.getElementById('partnerLogoPreview').innerHTML = '<img src="' + partnerUploadedLogo + '">';
+                    };
+                    img.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
             }
@@ -969,12 +981,16 @@
         }
 
         function exportPartners() {
-            const blob = new Blob([JSON.stringify(partners, null, 2)], { type: 'application/json' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'alabs_partners_' + new Date().toISOString().split('T')[0] + '.json';
-            a.click();
-            showToast('내보내기 완료', 'success');
+            const jsonStr = JSON.stringify(partners, null, 2);
+            
+            // Export as partners_data.json (for auto-load in partners page)
+            const blob1 = new Blob([jsonStr], { type: 'application/json' });
+            const a1 = document.createElement('a');
+            a1.href = URL.createObjectURL(blob1);
+            a1.download = 'partners_data.json';
+            a1.click();
+            
+            showToast('partners_data.json으로 내보내기 완료! 이 파일을 2_5_partners.html과 같은 폴더에 넣어주세요.', 'success');
         }
 
         function importPartners(event) {
@@ -1029,10 +1045,10 @@
                     <td>${inq.title}</td>
                     <td>${inq.date}</td>
                     <td><span class="badge ${inq.status}">${inq.status === 'pending' ? '대기중' : '처리완료'}</span></td>
-                    <td class="actions">
-                        <button class="view-btn" onclick="event.stopPropagation(); viewInquiry(${inq.id})"><i class="fas fa-eye"></i></button>
-                        ${inq.status === 'pending' ? `<button class="complete-btn" onclick="event.stopPropagation(); toggleInqStatus(${inq.id})"><i class="fas fa-check"></i></button>` : ''}
-                        <button class="delete-btn" onclick="event.stopPropagation(); deleteInquiry(${inq.id})"><i class="fas fa-trash"></i></button>
+                    <td class="actions" onclick="event.stopPropagation()">
+                        <button class="view-btn" onclick="viewInquiry(${inq.id})"><i class="fas fa-eye"></i></button>
+                        ${inq.status === 'pending' ? `<button class="complete-btn" onclick="toggleInqStatus(${inq.id})"><i class="fas fa-check"></i></button>` : ''}
+                        <button class="delete-btn" onclick="deleteInquiry(${inq.id})"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>`;
             });
