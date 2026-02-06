@@ -36,8 +36,13 @@
         .main-content { flex: 1; min-width: 0; }
         .content-title { font-size: 32px; font-weight: 700; color: var(--dark); margin-bottom: 40px; padding-bottom: 20px; border-bottom: 2px solid var(--light-gray); }
         .intro-text { font-size: 18px; color: var(--gray); line-height: 1.8; margin-bottom: 50px; padding: 30px; background: var(--bg-light); border-radius: 16px; border-left: 4px solid var(--accent); }
-        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 50px; }
-        .stat-box { background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%); border-radius: 16px; padding: 30px; text-align: center; color: var(--white); }
+        .stats-bar { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; margin-bottom: 50px; }
+        .stat-box { border-radius: 16px; padding: 30px; text-align: center; color: var(--white); }
+        .stat-box.total { background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%); }
+        .stat-box.public { background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%); }
+        .stat-box.local { background: linear-gradient(135deg, #38a169 0%, #276749 100%); }
+        .stat-box.enterprise { background: linear-gradient(135deg, #d97706 0%, #92400e 100%); }
+        .stat-box.foundation { background: linear-gradient(135deg, #9f7aea 0%, #6b46c1 100%); }
         .stat-box .number { font-size: 48px; font-weight: 700; margin-bottom: 8px; }
         .stat-box .label { font-size: 14px; opacity: 0.9; }
         .category-tabs { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
@@ -51,6 +56,7 @@
         .partner-card:hover { border-color: var(--accent); box-shadow: 0 5px 20px rgba(0,0,0,0.1); transform: translateY(-3px); }
         .partner-card img { max-width: 100%; max-height: 50px; object-fit: contain; margin-bottom: 10px; }
         .partner-card .partner-name { font-size: 12px; color: var(--gray); text-align: center; word-break: keep-all; }
+        
         
         .footer { background: var(--dark); color: rgba(255, 255, 255, 0.7); padding: 60px 20px 30px; margin-top: 80px; }
         .footer-inner { max-width: 1400px; margin: 0 auto; }
@@ -69,13 +75,14 @@
             .content-wrap { flex-direction: column; } 
             .sidebar { width: 100%; } 
             .partners-grid { grid-template-columns: repeat(3, 1fr); } 
-            .stats-bar { grid-template-columns: 1fr; } 
+            .stats-bar { grid-template-columns: repeat(3, 1fr); } 
             .footer-top { grid-template-columns: 1fr; } 
         }
         @media (max-width: 768px) { 
             .nav-menu { display: none; } 
             .mobile-menu-btn { display: flex; }
             .partners-grid { grid-template-columns: repeat(2, 1fr); } 
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
             .page-header { margin-top: 70px; padding: 50px 20px; }
             .page-header h1 { font-size: 28px; }
         }
@@ -115,9 +122,11 @@
             <p class="intro-text">아카이브랩스는 다양한 공공기관, 지방자치단체, 공기업 등과 함께 인권경영, 윤리경영, 청렴도 조사 등의 프로젝트를 성공적으로 수행해 왔습니다.</p>
             
             <div class="stats-bar">
-                <div class="stat-box"><div class="number" id="totalCount">0</div><div class="label">전체 수행기관</div></div>
-                <div class="stat-box"><div class="number" id="publicCount">0</div><div class="label">공공기관</div></div>
-                <div class="stat-box"><div class="number" id="localCount">0</div><div class="label">지방자치단체</div></div>
+                <div class="stat-box total"><div class="number" id="totalCount">0</div><div class="label">전체 수행기관</div></div>
+                <div class="stat-box public"><div class="number" id="publicCount">0</div><div class="label">공공기관</div></div>
+                <div class="stat-box local"><div class="number" id="localCount">0</div><div class="label">지방자치단체</div></div>
+                <div class="stat-box enterprise"><div class="number" id="enterpriseCount">0</div><div class="label">공기업</div></div>
+                <div class="stat-box foundation"><div class="number" id="foundationCount">0</div><div class="label">재단/협회</div></div>
             </div>
             
             <div class="category-tabs">
@@ -137,7 +146,7 @@
     <footer class="footer">
         <div class="footer-inner">
             <div class="footer-top">
-                <div class="footer-info"><div class="footer-logo"><img src="logo.png" alt="ArchiveLabs"></div><p class="footer-desc">아카이브랩스는 우리 사회 모든 종류의 차별을 밝혀내고 다양한 단위의 윤리·인권경영과 청렴한 조직 환경을 조성하기 위해 최선의 노력을 다하고 있습니다.</p><div class="footer-contact"><p><i class="fas fa-map-marker-alt"></i> (26404) 강원특별자치도 원주시 흥업면 한라대길 28 한라대학교 창업보육센터 2관 308호</p><p><i class="fas fa-phone"></i> 033. 813. 8080</p><p><i class="fas fa-envelope"></i> alabs2000@naver.com</p></div></div>
+                <div class="footer-info"><div class="footer-logo"><img src="logo.png" alt="ArchiveLabs"></div><p class="footer-desc">아카이브랩스는 우리 사회 모든 종류의 차별을 밝혀내고 다양한 단위의 윤리·인권경영과 청렴한 조직 환경을 조성하기 위해 최선의 노력을 다하고 있습니다.</p><div class="footer-contact"><p><i class="fas fa-map-marker-alt"></i> (26404) 강원특별자치도 원주시 흥업면 한라대길 28 한라대학교 창업보육센터 2관 308호</p><p><i class="fas fa-phone"></i> 033. 813. 8080</p><p><i class="fas fa-envelope"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c4a5a8a5a6b7f6f4f4f484aaa5b2a1b6eaa7aba9">[email&#160;protected]</a></p></div></div>
                 <div><div class="footer-title">아카이브랩스 소개</div><div class="footer-links"><a href="1_1_greeting.html">인사말</a><a href="1_2_vision.html">비전 및 가치</a><a href="1_3_organization.html">조직도</a><a href="1_4_history.html">연혁</a><a href="1_5_location.html">찾아오시는 길</a></div></div>
                 <div><div class="footer-title">연구사업영역</div><div class="footer-links"><a href="2_1_consulting.html">컨설팅</a><a href="2_2_analyze.html">진단조사·분석</a><a href="2_3_research.html">정책연구</a><a href="2_4_education.html">교육</a><a href="2_5_partners.html">수행기관</a></div></div>
                 <div><div class="footer-title">고객지원</div><div class="footer-links"><a href="3_1_news.html">아카이브랩스 뉴스</a><a href="4_1_inquiry.html">상담문의</a></div></div>
@@ -146,41 +155,48 @@
         </div>
     </footer>
 
-    <script>
-        // Sample data - localStorage에서 불러오기
-        let partners = [
-            { id: 1, name: '국민권익위원회', category: 'public', logo: '' },
-            { id: 2, name: '한국부동산원', category: 'public', logo: '' },
-            { id: 3, name: '국립공원공단', category: 'public', logo: '' },
-            { id: 4, name: '영화진흥위원회', category: 'public', logo: '' },
-            { id: 5, name: '게임물관리위원회', category: 'public', logo: '' },
-            { id: 6, name: '한국국제협력단', category: 'public', logo: '' },
-            { id: 7, name: '기초과학연구원', category: 'public', logo: '' },
-            { id: 8, name: '국제식물검역인증원', category: 'public', logo: '' },
-            { id: 9, name: '경기도청', category: 'local', logo: '' },
-            { id: 10, name: '인천광역시', category: 'local', logo: '' },
-            { id: 11, name: '대구광역시', category: 'local', logo: '' },
-            { id: 12, name: '원주시', category: 'local', logo: '' },
-            { id: 13, name: '영천시', category: 'local', logo: '' },
-            { id: 14, name: '경기평택항만공사', category: 'enterprise', logo: '' },
-            { id: 15, name: '구리도시공사', category: 'enterprise', logo: '' },
-            { id: 16, name: '아산시시설관리공단', category: 'enterprise', logo: '' },
-            { id: 17, name: '주택관리공단', category: 'enterprise', logo: '' },
-            { id: 18, name: '울산중구도시관리공단', category: 'enterprise', logo: '' },
-            { id: 19, name: '광주시문화재단', category: 'foundation', logo: '' },
-            { id: 20, name: '서울시여성가족재단', category: 'foundation', logo: '' },
-            { id: 21, name: '이천문화재단', category: 'foundation', logo: '' },
-            { id: 22, name: '강원역사문화연구원', category: 'foundation', logo: '' },
-            { id: 23, name: '한라대학교 산학협력단', category: 'foundation', logo: '' },
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        const partners = [
+            // 공공기관 (가나다 순)
+            { id: 1, name: '게임물관리위원회', category: 'public', logo: 'partners_logo/게임물관리위원회.JPG' },
+            { id: 2, name: '국립공원공단', category: 'public', logo: 'partners_logo/국립공원공단.png' },
+            { id: 3, name: '광주광역시 서구시설관리공단', category: 'public', logo: 'partners_logo/광주광역시 서구시설관리공단.png' },
+            { id: 4, name: '기초과학연구원', category: 'public', logo: 'partners_logo/기초과학연구원.png' },
+            { id: 5, name: '부산정보산업진흥원', category: 'public', logo: 'partners_logo/부산정보산업진흥원.png' },
+            { id: 6, name: '서울시설공단', category: 'public', logo: 'partners_logo/서울시설공단.png' },
+            { id: 7, name: '성북구도시관리공단', category: 'public', logo: 'partners_logo/성북구도시관리공단.JPG' },
+            { id: 8, name: '아산시시설관리공단', category: 'public', logo: 'partners_logo/아산시시설관리공단.png' },
+            { id: 9, name: '한국노동연구원', category: 'public', logo: 'partners_logo/한국노동연구원.png' },
+            { id: 10, name: '한국도핑방지위원회', category: 'public', logo: 'partners_logo/한국도핑방지위원회.jpg' },
+            { id: 11, name: '한국부동산원', category: 'public', logo: 'partners_logo/한국부동산원.jpg' },
+            { id: 12, name: '한국조세재정연구원', category: 'public', logo: 'partners_logo/한국조세재정연구원.png' },
+            // 지방자치단체 (입력 순)
+            { id: 13, name: '서울특별시', category: 'local', logo: 'partners_logo/서울특별시.png' },
+            { id: 14, name: '인천광역시', category: 'local', logo: 'partners_logo/인천광역시.png' },
+            { id: 15, name: '대전광역시', category: 'local', logo: 'partners_logo/대전광역시.png' },
+            { id: 16, name: '세종특별자치시', category: 'local', logo: 'partners_logo/세종특별자치시.png' },
+            { id: 17, name: '수원특례시', category: 'local', logo: 'partners_logo/수원특례시.jpg' },
+            { id: 18, name: '용인특례시', category: 'local', logo: 'partners_logo/용인특례시.jpg' },
+            { id: 19, name: '남양주시', category: 'local', logo: 'partners_logo/남양주시.png' },
+            { id: 20, name: '성남시', category: 'local', logo: 'partners_logo/성남시.jpg' },
+            { id: 21, name: '아산시', category: 'local', logo: 'partners_logo/아산시.png' },
+            { id: 22, name: '원주시', category: 'local', logo: 'partners_logo/원주시.jpg' },
+            { id: 23, name: '화성시', category: 'local', logo: 'partners_logo/화성시.png' },
+            { id: 24, name: '서울특별시 강동구', category: 'local', logo: 'partners_logo/서울특별시 강동구.png' },
+            // 공기업 (가나다 순)
+            { id: 25, name: '강릉관광개발공사', category: 'enterprise', logo: 'partners_logo/강릉관광개발공사.png' },
+            { id: 26, name: '경기평택항만공사', category: 'enterprise', logo: 'partners_logo/경기평택항만공사.png' },
+            { id: 27, name: '구리농수산물공사', category: 'enterprise', logo: 'partners_logo/구리농수산물공사.JPG' },
+            { id: 28, name: '구리도시공사', category: 'enterprise', logo: 'partners_logo/구리도시공사.JPG' },
+            { id: 29, name: '한국국토정보공사', category: 'enterprise', logo: 'partners_logo/한국국토정보공사.png' },
+            // 재단/협회 (가나다 순)
+            { id: 30, name: '강원역사문화연구원', category: 'foundation', logo: 'partners_logo/강원역사문화연구원.png' },
+            { id: 31, name: '광명시청소년재단', category: 'foundation', logo: 'partners_logo/광명시청소년재단.png' },
+            { id: 32, name: '광주시문화재단', category: 'foundation', logo: 'partners_logo/광주시문화재단.JPG' },
+            { id: 33, name: '서울시여성가족재단', category: 'foundation', logo: 'partners_logo/서울시여성가족재단.png' },
+            { id: 34, name: '이천문화재단', category: 'foundation', logo: 'partners_logo/이천문화재단.png' },
         ];
-        
-        // Load from localStorage if exists
-        const savedPartners = localStorage.getItem('alabs_partners');
-        if (savedPartners) {
-            partners = JSON.parse(savedPartners);
-        }
-        
-        let currentCategory = 'all';
         
         const categoryNames = {
             'public': '공공기관',
@@ -188,6 +204,8 @@
             'enterprise': '공기업',
             'foundation': '재단/협회'
         };
+        
+        let currentCategory = 'all';
         
         document.addEventListener('DOMContentLoaded', function() {
             renderPartners();
@@ -205,33 +223,40 @@
         
         function renderPartners() {
             const container = document.getElementById('partnersContainer');
-            let filteredPartners = currentCategory === 'all' 
+            let filtered = currentCategory === 'all' 
                 ? partners 
                 : partners.filter(p => p.category === currentCategory);
             
+            // Group by category, maintaining array order (already sorted as intended)
             const grouped = {};
-            filteredPartners.forEach(p => {
+            filtered.forEach(p => {
                 if (!grouped[p.category]) grouped[p.category] = [];
                 grouped[p.category].push(p);
             });
             
+            const categoryOrder = ['public', 'local', 'enterprise', 'foundation'];
+            
             let html = '';
-            for (const [category, items] of Object.entries(grouped)) {
+            categoryOrder.forEach(category => {
+                const items = grouped[category];
+                if (!items || items.length === 0) return;
+                
                 html += '<div class="partners-section">';
                 html += '<h3><i class="fas fa-building"></i> ' + categoryNames[category] + ' (' + items.length + ')</h3>';
                 html += '<div class="partners-grid">';
                 items.forEach(partner => {
                     html += '<div class="partner-card">';
                     if (partner.logo) {
-                        html += '<img src="' + partner.logo + '" alt="' + partner.name + '">';
+                        html += '<img src="' + partner.logo + '" alt="' + partner.name + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\';">';
+                        html += '<i class="fas fa-building logo-fallback" style="display:none;"></i>';
                     } else {
-                        html += '<i class="fas fa-building" style="font-size:32px;color:var(--light-gray);margin-bottom:10px;"></i>';
+                        html += '<i class="fas fa-building logo-fallback"></i>';
                     }
                     html += '<span class="partner-name">' + partner.name + '</span>';
                     html += '</div>';
                 });
                 html += '</div></div>';
-            }
+            });
             
             container.innerHTML = html || '<p style="text-align:center;color:var(--gray);padding:40px;">등록된 기관이 없습니다.</p>';
         }
@@ -240,7 +265,7 @@
             document.getElementById('totalCount').textContent = partners.length;
             document.getElementById('publicCount').textContent = partners.filter(p => p.category === 'public').length;
             document.getElementById('localCount').textContent = partners.filter(p => p.category === 'local').length;
+            document.getElementById('enterpriseCount').textContent = partners.filter(p => p.category === 'enterprise').length;
+            document.getElementById('foundationCount').textContent = partners.filter(p => p.category === 'foundation').length;
         }
     </script>
-</body>
-</html>
